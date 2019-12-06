@@ -14,12 +14,14 @@ jobs:
         key: ${{ secrets.KEY }}
         port: ${{ secrets.PORT }}
         script: |
+          ./aries-cloudagent-ula-development-setup/von-network/manage down
           rm -rf ./aries-cloudagent-ula-development-setup
           docker login docker.pkg.github.com -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
           git clone --recursive https://github.com/utrecht-innovation/aries-cloudagent-ula-development-setup
-          ./aries-cloudagent-ula-development-setup/von-network/manage build
-          ./aries-cloudagent-ula-development-setup/von-network/manage up &
-          disown
-          sleep 60
+          cd aries-cloudagent-ula-development-setup 
+          # ./von-network/manage build
+          # ./von-network/manage up &
+          # disown
+          # sleep 60
           docker-compose up &
           disown
