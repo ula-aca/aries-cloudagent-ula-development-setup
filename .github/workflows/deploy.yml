@@ -1,0 +1,24 @@
+name: remote ssh command
+on: [push]
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+          rm -rf ./aries-cloudagent-ula-development-setup
+          docker login docker.pkg.github.com -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+          git clone --recursive https://github.com/utrecht-innovation/aries-cloudagent-ula-development-setup
+          ./aries-cloudagent-ula-development-setup/von-network/manage build
+          ./aries-cloudagent-ula-development-setup/von-network/manage up &
+          disown
+          sleep 60
+          docker-compose up -d
