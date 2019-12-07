@@ -2,10 +2,15 @@ name: remote ssh command
 on: [push]
 jobs:
 
+
   deploy:
     name: Deploy to server
     runs-on: ubuntu-latest
     steps:
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
     - name: executing remote ssh commands using ssh key
       uses: appleboy/ssh-action@master
       env:
@@ -20,7 +25,7 @@ jobs:
           cd ~
           rm -rf ./aries-cloudagent-ula-development-setup
           echo ${{secrets.DOCKER_PASSWORD}} | docker login docker.pkg.github.com --username ${{secrets.DOCKER_USERNAME}} --password-stdin
-          git clone --recursive https://github.com/utrecht-innovation/aries-cloudagent-ula-development-setup/tree/${{GITHUB_REF##*/}}
+          git clone --recursive https://github.com/utrecht-innovation/aries-cloudagent-ula-development-setup/tree/${{steps.extract_branch.outputs.branch}}
           cd aries-cloudagent-ula-development-setup 
           # ./von-network/manage build
           # ./von-network/manage up &
