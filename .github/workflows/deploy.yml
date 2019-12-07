@@ -8,6 +8,9 @@ jobs:
     steps:
     - name: executing remote ssh commands using ssh key
       uses: appleboy/ssh-action@master
+      env:
+        DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
