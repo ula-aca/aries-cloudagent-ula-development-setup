@@ -27,5 +27,4 @@ jobs:
           echo ${{secrets.DOCKER_PASSWORD}} | docker login docker.pkg.github.com --username ${{secrets.DOCKER_USERNAME}} --password-stdin
           git clone --recursive --single-branch --branch ${{steps.extract_branch.outputs.branch}} https://github.com/utrecht-innovation/aries-cloudagent-ula-development-setup
           cd aries-cloudagent-ula-development-setup 
-          docker-compose up &
-          disown
+          docker-compose up -d
