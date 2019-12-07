@@ -20,7 +20,7 @@ jobs:
           cd ~
           rm -rf ./aries-cloudagent-ula-development-setup
           echo ${{secrets.DOCKER_PASSWORD}} | docker login docker.pkg.github.com --username ${{secrets.DOCKER_USERNAME}} --password-stdin
-          git clone --recursive https://github.com/utrecht-innovation/aries-cloudagent-ula-development-setup/tree/${GITHUB_REF##*/}
+          git clone --recursive https://github.com/utrecht-innovation/aries-cloudagent-ula-development-setup/tree/${{GITHUB_REF##*/}}
           cd aries-cloudagent-ula-development-setup 
           # ./von-network/manage build
           # ./von-network/manage up &
