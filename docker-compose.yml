@@ -11,7 +11,7 @@ services:
       -d '{"alias":"Faber Agent","seed":"faber_seed_000000000000000000001","role":"TRUST_ANCHOR"}'
 
   faber-aca-py:
-    image: bcgovimages/aries-cloudagent:py36-1.11-1_0.3.5
+    image: bcgovimages/aries-cloudagent:py36-1.11-1_0.4.0
     ports:
       - 7002:7002
       - 7000:7000
@@ -40,7 +40,7 @@ services:
         --seed faber_seed_000000000000000000001
                 
   alice-aca-py:
-    image: bcgovimages/aries-cloudagent:py36-1.11-1_0.3.5
+    image: bcgovimages/aries-cloudagent:py36-1.11-1_0.4.0
     ports:
       - 8002:8002
       - 8000:8000
