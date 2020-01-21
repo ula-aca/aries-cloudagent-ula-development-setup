@@ -9,6 +9,24 @@ services:
       -X POST
       -d '{"alias":"Faber Agent","seed":"faber_seed_000000000000000000001","role":"TRUST_ANCHOR"}'
 
+  alice-register-seed:
+    image: byrnedo/alpine-curl
+    networks:
+      - von
+    command: >-
+      http://von_webserver_1:8000/register
+      -X POST
+      -d '{"alias":"Alice Agent","seed":"alice_seed_000000000000000000001","role":"TRUST_ANCHOR"}'
+
+  acme-register-seed:
+    image: byrnedo/alpine-curl
+    networks:
+      - von
+    command: >-
+      http://von_webserver_1:8000/register
+      -X POST
+      -d '{"alias":"Acme Agent","seed":"acme_seed_0000000000000000000001","role":"TRUST_ANCHOR"}'
+
   faber-aca-py:
     image: bcgovimages/aries-cloudagent:py36-1.11-1_0.4.0
     ports:
@@ -46,6 +64,7 @@ services:
       - 8001:8001
     depends_on:
       - alice-webhook-relay
+      - alice-register-seed
     networks:
       - von
       - aca-py
@@ -64,6 +83,7 @@ services:
         --wallet-type indy
         --wallet-name "Alice Wallet"
         --wallet-key AliceWallet000000
+        --seed alice_seed_000000000000000000001
 
   acme-aca-py:
     image: bcgovimages/aries-cloudagent:py36-1.11-1_0.4.0
@@ -73,6 +93,7 @@ services:
       - 6001:6001
     depends_on:
       - acme-webhook-relay
+      - acme-register-seed
     networks:
       - von
       - aca-py
@@ -90,7 +111,8 @@ services:
         --genesis-url http://von_webserver_1:8000/genesis
         --wallet-type indy
         --wallet-name "Acme Wallet"
-        --wallet-key AcmeWallet000000
+        --wallet-key AcmeWallet0000000
+        --seed acme_seed_0000000000000000000001
 
   faber-webhook-relay:
     image: docker.pkg.github.com/ula-aca/aries-cloudagent-webhook-relay/aca-whr:latest
