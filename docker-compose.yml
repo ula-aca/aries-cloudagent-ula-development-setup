@@ -1,5 +1,38 @@
 version: "3"
 services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: ula-aca-development-nginx-proxy
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - aca-py
+    labels:
+      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - conf:/etc/nginx/conf.d
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - dhparam:/etc/nginx/dhparam
+      - certs:/etc/nginx/certs:ro
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    networks:
+      - aca-py
+    environment:
+      NGINX_PROXY_CONTAINER: ula-aca-development-nginx-proxy
+      DEFAULT_EMAIL: timo@glastra.me
+    volumes:
+      - certs:/etc/nginx/certs:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - conf:/etc/nginx/conf.d
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - dhparam:/etc/nginx/dhparam
+
   faber-register-seed:
     image: byrnedo/alpine-curl
     networks:
@@ -33,6 +66,10 @@ services:
       - 7002:7002
       - 7000:7000
       - 7001:7001
+    environment:
+      VIRTUAL_HOST: faber.glastra.dev
+      LETSENCRYPT_HOST: faber.glastra.dev
+      VIRTUAL_PORT: "7002"
     depends_on:
       - faber-webhook-relay
       - faber-register-seed
@@ -62,6 +99,10 @@ services:
       - 8002:8002
       - 8000:8000
       - 8001:8001
+    environment:
+      VIRTUAL_HOST: alice.glastra.dev
+      LETSENCRYPT_HOST: alice.glastra.dev
+      VIRTUAL_PORT: "8002"
     depends_on:
       - alice-webhook-relay
       - alice-register-seed
@@ -91,6 +132,10 @@ services:
       - 6002:6002
       - 6000:6000
       - 6001:6001
+    environment:
+      VIRTUAL_HOST: acme.glastra.dev
+      LETSENCRYPT_HOST: acme.glastra.dev
+      VIRTUAL_PORT: "6002"
     depends_on:
       - acme-webhook-relay
       - acme-register-seed
@@ -116,6 +161,10 @@ services:
 
   faber-webhook-relay:
     image: docker.pkg.github.com/ula-aca/aries-cloudagent-webhook-relay/aca-whr:latest
+    environment:
+      VIRTUAL_HOST: whr.faber.glastra.dev
+      LETSENCRYPT_HOST: whr.faber.glastra.dev
+      VIRTUAL_PORT: "8080"
     networks:
       - aca-py
     ports:
@@ -124,6 +173,10 @@ services:
 
   alice-webhook-relay:
     image: docker.pkg.github.com/ula-aca/aries-cloudagent-webhook-relay/aca-whr:latest
+    environment:
+      VIRTUAL_HOST: whr.alice.glastra.dev
+      LETSENCRYPT_HOST: whr.alice.glastra.dev
+      VIRTUAL_PORT: "8080"
     networks:
       - aca-py
     ports:
@@ -132,6 +185,10 @@ services:
 
   acme-webhook-relay:
     image: docker.pkg.github.com/ula-aca/aries-cloudagent-webhook-relay/aca-whr:latest
+    environment:
+      VIRTUAL_HOST: whr.acme.glastra.dev
+      LETSENCRYPT_HOST: whr.acme.glastra.dev
+      VIRTUAL_PORT: "8080"
     networks:
       - aca-py
     ports:
@@ -143,3 +200,9 @@ networks:
     external:
       name: von_von
   aca-py:
+volumes:
+  conf:
+  vhost:
+  html:
+  dhparam:
+  certs:
