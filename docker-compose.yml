@@ -71,6 +71,8 @@ services:
     networks:
       - von
       - aca-py
+    ports:
+      - "7002"
     command: >-
       start
         --label "Faber Agent"
@@ -100,6 +102,8 @@ services:
     networks:
       - von
       - aca-py
+    ports:
+      - "8002"
     command: >-
       start 
         --endpoint http://alice-aca-py:8000 
@@ -129,6 +133,8 @@ services:
     networks:
       - von
       - aca-py
+    ports:
+      - "6002"
     command: >-
       start 
         --endpoint http://acme-aca-py:6000 
