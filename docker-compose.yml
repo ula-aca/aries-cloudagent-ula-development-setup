@@ -4,7 +4,6 @@ services:
     image: jwilder/nginx-proxy
     container_name: ula-aca-development-nginx-proxy
     ports:
-      - 80:80
       - 443:443
     networks:
       - aca-py
@@ -62,10 +61,6 @@ services:
 
   faber-aca-py:
     image: bcgovimages/aries-cloudagent:py36-1.11-1_0.4.0
-    ports:
-      - 7002:7002
-      - 7000:7000
-      - 7001:7001
     environment:
       VIRTUAL_HOST: faber.glastra.dev
       LETSENCRYPT_HOST: faber.glastra.dev
@@ -95,10 +90,6 @@ services:
 
   alice-aca-py:
     image: bcgovimages/aries-cloudagent:py36-1.11-1_0.4.0
-    ports:
-      - 8002:8002
-      - 8000:8000
-      - 8001:8001
     environment:
       VIRTUAL_HOST: alice.glastra.dev
       LETSENCRYPT_HOST: alice.glastra.dev
@@ -128,10 +119,6 @@ services:
 
   acme-aca-py:
     image: bcgovimages/aries-cloudagent:py36-1.11-1_0.4.0
-    ports:
-      - 6002:6002
-      - 6000:6000
-      - 6001:6001
     environment:
       VIRTUAL_HOST: acme.glastra.dev
       LETSENCRYPT_HOST: acme.glastra.dev
@@ -167,8 +154,6 @@ services:
       VIRTUAL_PORT: "8080"
     networks:
       - aca-py
-    ports:
-      - 7080:8080
     command: --log DEBUG
 
   alice-webhook-relay:
@@ -179,8 +164,6 @@ services:
       VIRTUAL_PORT: "8080"
     networks:
       - aca-py
-    ports:
-      - 8080:8080
     command: --log DEBUG
 
   acme-webhook-relay:
@@ -191,8 +174,6 @@ services:
       VIRTUAL_PORT: "8080"
     networks:
       - aca-py
-    ports:
-      - 6080:8080
     command: --log DEBUG
 
 networks:
