@@ -153,7 +153,7 @@ services:
         --seed acme_seed_0000000000000000000001
 
   faber-webhook-relay:
-    image: docker.pkg.github.com/ula-aca/aries-cloudagent-webhook-relay/aca-whr:latest
+    image: karimstekelenburg/aries-cloudagent-webhook-relay
     environment:
       VIRTUAL_HOST: whr.faber.blockchainlandscape.com
       LETSENCRYPT_HOST: whr.faber.blockchainlandscape.com
@@ -163,7 +163,7 @@ services:
     command: --log DEBUG
 
   alice-webhook-relay:
-    image: docker.pkg.github.com/ula-aca/aries-cloudagent-webhook-relay/aca-whr:latest
+    image: karimstekelenburg/aries-cloudagent-webhook-relay
     environment:
       VIRTUAL_HOST: whr.alice.blockchainlandscape.com
       LETSENCRYPT_HOST: whr.alice.blockchainlandscape.com
@@ -173,7 +173,7 @@ services:
     command: --log DEBUG
 
   acme-webhook-relay:
-    image: docker.pkg.github.com/ula-aca/aries-cloudagent-webhook-relay/aca-whr:latest
+    image: karimstekelenburg/aries-cloudagent-webhook-relay
     environment:
       VIRTUAL_HOST: whr.acme.blockchainlandscape.com
       LETSENCRYPT_HOST: whr.acme.blockchainlandscape.com
