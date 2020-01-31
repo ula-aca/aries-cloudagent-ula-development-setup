@@ -62,8 +62,8 @@ services:
   faber-aca-py:
     image: bcgovimages/aries-cloudagent:py36-1.11-1_0.4.0
     environment:
-      VIRTUAL_HOST: faber.glastra.dev
-      LETSENCRYPT_HOST: faber.glastra.dev
+      VIRTUAL_HOST: aca.faber.blockchainlandscape.com
+      LETSENCRYPT_HOST: aca.faber.blockchainlandscape.com
       VIRTUAL_PORT: "7002"
     depends_on:
       - faber-webhook-relay
@@ -93,8 +93,8 @@ services:
   alice-aca-py:
     image: bcgovimages/aries-cloudagent:py36-1.11-1_0.4.0
     environment:
-      VIRTUAL_HOST: alice.glastra.dev
-      LETSENCRYPT_HOST: alice.glastra.dev
+      VIRTUAL_HOST: aca.alice.blockchainlandscape.com
+      LETSENCRYPT_HOST: aca.alice.blockchainlandscape.com
       VIRTUAL_PORT: "8002"
     depends_on:
       - alice-webhook-relay
@@ -124,8 +124,8 @@ services:
   acme-aca-py:
     image: bcgovimages/aries-cloudagent:py36-1.11-1_0.4.0
     environment:
-      VIRTUAL_HOST: acme.glastra.dev
-      LETSENCRYPT_HOST: acme.glastra.dev
+      VIRTUAL_HOST: aca.acme.blockchainlandscape.com
+      LETSENCRYPT_HOST: aca.acme.blockchainlandscape.com
       VIRTUAL_PORT: "6002"
     depends_on:
       - acme-webhook-relay
@@ -155,8 +155,8 @@ services:
   faber-webhook-relay:
     image: docker.pkg.github.com/ula-aca/aries-cloudagent-webhook-relay/aca-whr:latest
     environment:
-      VIRTUAL_HOST: whr.faber.glastra.dev
-      LETSENCRYPT_HOST: whr.faber.glastra.dev
+      VIRTUAL_HOST: whr.faber.blockchainlandscape.com
+      LETSENCRYPT_HOST: whr.faber.blockchainlandscape.com
       VIRTUAL_PORT: "8080"
     networks:
       - aca-py
@@ -165,8 +165,8 @@ services:
   alice-webhook-relay:
     image: docker.pkg.github.com/ula-aca/aries-cloudagent-webhook-relay/aca-whr:latest
     environment:
-      VIRTUAL_HOST: whr.alice.glastra.dev
-      LETSENCRYPT_HOST: whr.alice.glastra.dev
+      VIRTUAL_HOST: whr.alice.blockchainlandscape.com
+      LETSENCRYPT_HOST: whr.alice.blockchainlandscape.com
       VIRTUAL_PORT: "8080"
     networks:
       - aca-py
@@ -175,8 +175,8 @@ services:
   acme-webhook-relay:
     image: docker.pkg.github.com/ula-aca/aries-cloudagent-webhook-relay/aca-whr:latest
     environment:
-      VIRTUAL_HOST: whr.acme.glastra.dev
-      LETSENCRYPT_HOST: whr.acme.glastra.dev
+      VIRTUAL_HOST: whr.acme.blockchainlandscape.com
+      LETSENCRYPT_HOST: whr.acme.blockchainlandscape.com
       VIRTUAL_PORT: "8080"
     networks:
       - aca-py
