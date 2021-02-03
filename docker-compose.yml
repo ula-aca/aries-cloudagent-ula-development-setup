@@ -67,10 +67,12 @@ services:
       - aca-py
     ports:
       - "7002"
+      - "7000:7000"
+      - "7001:7001"
     command: >-
       start
         --label "Faber Agent"
-        --endpoint http://faber-aca-py:7000
+        --endpoint http://aca.faber.demo.animo.id:7000
         --genesis-url http://test.bcovrin.vonx.io/genesis
         --webhook-url http://faber-webhook-relay:8080
         --admin 0.0.0.0 7002 
@@ -97,9 +99,11 @@ services:
       - aca-py
     ports:
       - "8002"
+      - "8000:8000"
+      - "8001:8001"
     command: >-
       start 
-        --endpoint http://alice-aca-py:8000 
+        --endpoint http://aca.alice.demo.animo.id:8000
         --admin 0.0.0.0 8002    
         --admin-insecure-mode
         --webhook-url http://alice-webhook-relay:8080
@@ -127,9 +131,11 @@ services:
       - aca-py
     ports:
       - "6002"
+      - "6000:6000"
+      - "6001:6001"
     command: >-
       start 
-        --endpoint http://acme-aca-py:6000 
+        --endpoint http://aca.acme.demo.animo.id:6000
         --admin 0.0.0.0 6002    
         --admin-insecure-mode
         --webhook-url http://acme-webhook-relay:8080
