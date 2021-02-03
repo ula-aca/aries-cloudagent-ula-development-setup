@@ -24,7 +24,7 @@ services:
       - aca-py
     environment:
       NGINX_PROXY_CONTAINER: ula-aca-development-nginx-proxy
-      DEFAULT_EMAIL: timo@glastra.me
+      DEFAULT_EMAIL: timo@animo.id
     volumes:
       - certs:/etc/nginx/certs:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -35,42 +35,35 @@ services:
 
   faber-register-seed:
     image: byrnedo/alpine-curl
-    networks:
-      - von
     command: >-
-      http://von_webserver_1:8000/register
+      http://dev.greenlight.bcovrin.vonx.io/register
       -X POST
       -d '{"alias":"Faber Agent","seed":"faber_seed_000000000000000000001","role":"TRUST_ANCHOR"}'
 
   alice-register-seed:
     image: byrnedo/alpine-curl
-    networks:
-      - von
     command: >-
-      http://von_webserver_1:8000/register
+      http://dev.greenlight.bcovrin.vonx.io/register
       -X POST
       -d '{"alias":"Alice Agent","seed":"alice_seed_000000000000000000001","role":"TRUST_ANCHOR"}'
 
   acme-register-seed:
     image: byrnedo/alpine-curl
-    networks:
-      - von
     command: >-
-      http://von_webserver_1:8000/register
+      http://dev.greenlight.bcovrin.vonx.io/register
       -X POST
       -d '{"alias":"Acme Agent","seed":"acme_seed_0000000000000000000001","role":"TRUST_ANCHOR"}'
 
   faber-aca-py:
-    image: bcgovimages/aries-cloudagent:py36-1.11-1_0.4.0
+    image: bcgovimages/aries-cloudagent:py36-1.15-0_0.5.6
     environment:
-      VIRTUAL_HOST: aca.faber.blockchainlandscape.com
-      LETSENCRYPT_HOST: aca.faber.blockchainlandscape.com
+      VIRTUAL_HOST: aca.faber.demo.animo.id
+      LETSENCRYPT_HOST: aca.faber.demo.animo.id
       VIRTUAL_PORT: "7002"
     depends_on:
       - faber-webhook-relay
       - faber-register-seed
     networks:
-      - von
       - aca-py
     ports:
       - "7002"
@@ -78,7 +71,7 @@ services:
       start
         --label "Faber Agent"
         --endpoint http://faber-aca-py:7000
-        --genesis-url http://von_webserver_1:8000/genesis
+        --genesis-url http://dev.greenlight.bcovrin.vonx.io/genesis
         --webhook-url http://faber-webhook-relay:8080
         --admin 0.0.0.0 7002 
         --admin-insecure-mode 
@@ -92,16 +85,15 @@ services:
         --seed faber_seed_000000000000000000001
 
   alice-aca-py:
-    image: bcgovimages/aries-cloudagent:py36-1.11-1_0.4.0
+    image: bcgovimages/aries-cloudagent:py36-1.15-0_0.5.6
     environment:
-      VIRTUAL_HOST: aca.alice.blockchainlandscape.com
-      LETSENCRYPT_HOST: aca.alice.blockchainlandscape.com
+      VIRTUAL_HOST: aca.alice.demo.animo.id
+      LETSENCRYPT_HOST: aca.alice.demo.animo.id
       VIRTUAL_PORT: "8002"
     depends_on:
       - alice-webhook-relay
       - alice-register-seed
     networks:
-      - von
       - aca-py
     ports:
       - "8002"
@@ -116,23 +108,22 @@ services:
         --inbound-transport ws 0.0.0.0 8001 
         --outbound-transport http 
         --outbound-transport ws 
-        --genesis-url http://von_webserver_1:8000/genesis
+        --genesis-url http://dev.greenlight.bcovrin.vonx.io/genesis
         --wallet-type indy
         --wallet-name "Alice Wallet"
         --wallet-key AliceWallet000000
         --seed alice_seed_000000000000000000001
 
   acme-aca-py:
-    image: bcgovimages/aries-cloudagent:py36-1.11-1_0.4.0
+    image: bcgovimages/aries-cloudagent:py36-1.15-0_0.5.6
     environment:
-      VIRTUAL_HOST: aca.acme.blockchainlandscape.com
-      LETSENCRYPT_HOST: aca.acme.blockchainlandscape.com
+      VIRTUAL_HOST: aca.acme.demo.animo.id
+      LETSENCRYPT_HOST: aca.acme.demo.animo.id
       VIRTUAL_PORT: "6002"
     depends_on:
       - acme-webhook-relay
       - acme-register-seed
     networks:
-      - von
       - aca-py
     ports:
       - "6002"
@@ -147,7 +138,7 @@ services:
         --inbound-transport ws 0.0.0.0 6001 
         --outbound-transport http 
         --outbound-transport ws 
-        --genesis-url http://von_webserver_1:8000/genesis
+        --genesis-url http://dev.greenlight.bcovrin.vonx.io/genesis
         --wallet-type indy
         --wallet-name "Acme Wallet"
         --wallet-key AcmeWallet0000000
@@ -156,37 +147,58 @@ services:
   faber-webhook-relay:
     image: karimstekelenburg/aries-cloudagent-webhook-relay
     environment:
-      VIRTUAL_HOST: whr.faber.blockchainlandscape.com
-      LETSENCRYPT_HOST: whr.faber.blockchainlandscape.com
+      VIRTUAL_HOST: whr.faber.demo.animo.id
+      LETSENCRYPT_HOST: whr.faber.demo.animo.id
       VIRTUAL_PORT: "8080"
     networks:
       - aca-py
-    command: --log DEBUG
+    command: --log DEBUG --api-key 1e08eef8-1808-414c-b685-edce8b034ee4
 
   alice-webhook-relay:
     image: karimstekelenburg/aries-cloudagent-webhook-relay
     environment:
-      VIRTUAL_HOST: whr.alice.blockchainlandscape.com
-      LETSENCRYPT_HOST: whr.alice.blockchainlandscape.com
+      VIRTUAL_HOST: whr.alice.demo.animo.id
+      LETSENCRYPT_HOST: whr.alice.demo.animo.id
       VIRTUAL_PORT: "8080"
     networks:
       - aca-py
-    command: --log DEBUG
+    command: --log DEBUG --api-key 979ee50b-9021-4cce-8f99-1c184e778347
 
   acme-webhook-relay:
     image: karimstekelenburg/aries-cloudagent-webhook-relay
     environment:
-      VIRTUAL_HOST: whr.acme.blockchainlandscape.com
-      LETSENCRYPT_HOST: whr.acme.blockchainlandscape.com
+      VIRTUAL_HOST: whr.acme.demo.animo.id
+      LETSENCRYPT_HOST: whr.acme.demo.animo.id
       VIRTUAL_PORT: "8080"
     networks:
       - aca-py
-    command: --log DEBUG
+    command: --log DEBUG --api-key 62517f51-a238-427a-9912-6c632ef12fe4
+
+  # acme-faber-demo:
+  #   image: nginx:1.15.2-alpine
+  #   volumes:
+  #     - /root/aries-cloudagent-ula-development-setup/demo:/var/www:ro
+  #     - /root/aries-cloudagent-ula-development-setup/nginx.conf:/etc/nginx/nginx.conf:ro
+  #   networks:
+  #     - aca-py
+  #   environment:
+  #     VIRTUAL_HOST: demo.animo.id
+  #     LETSENCRYPT_HOST: demo.animo.id
+  #     VIRTUAL_PORT: "80"
+
+  acme-faber-demo:
+    image: nginx:1.15.2-alpine
+    volumes:
+      - ./demo:/var/www:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - aca-py
+    environment:
+      VIRTUAL_HOST: demo.animo.id
+      LETSENCRYPT_HOST: demo.animo.id
+      VIRTUAL_PORT: "80"
 
 networks:
-  von:
-    external:
-      name: von_von
   aca-py:
 volumes:
   conf:
