@@ -85,6 +85,8 @@ services:
         --wallet-name "Faber Wallet"
         --wallet-key FaberWallet000000
         --seed faber_seed_000000000000000000001
+        --log-level DEBUG
+        --debug-connections
 
   alice-aca-py:
     image: bcgovimages/aries-cloudagent:py36-1.15-0_0.5.6
@@ -117,6 +119,8 @@ services:
         --wallet-name "Alice Wallet"
         --wallet-key AliceWallet000000
         --seed alice_seed_000000000000000000001
+        --log-level DEBUG
+        --debug-connections
 
   acme-aca-py:
     image: bcgovimages/aries-cloudagent:py36-1.15-0_0.5.6
@@ -149,6 +153,8 @@ services:
         --wallet-name "Acme Wallet"
         --wallet-key AcmeWallet0000000
         --seed acme_seed_0000000000000000000001
+        --log-level DEBUG
+        --debug-connections
 
   faber-webhook-relay:
     image: karimstekelenburg/aries-cloudagent-webhook-relay
