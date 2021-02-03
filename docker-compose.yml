@@ -174,20 +174,8 @@ services:
       - aca-py
     command: --log DEBUG --api-key 62517f51-a238-427a-9912-6c632ef12fe4
 
-  # acme-faber-demo:
-  #   image: nginx:1.15.2-alpine
-  #   volumes:
-  #     - /root/aries-cloudagent-ula-development-setup/demo:/var/www:ro
-  #     - /root/aries-cloudagent-ula-development-setup/nginx.conf:/etc/nginx/nginx.conf:ro
-  #   networks:
-  #     - aca-py
-  #   environment:
-  #     VIRTUAL_HOST: demo.animo.id
-  #     LETSENCRYPT_HOST: demo.animo.id
-  #     VIRTUAL_PORT: "80"
-
   acme-faber-demo:
-    image: nginx:1.15.2-alpine
+    image: nginx:1.19.6-alpine
     volumes:
       - ./demo:/var/www:ro
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
