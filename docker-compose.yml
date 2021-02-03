@@ -36,21 +36,21 @@ services:
   faber-register-seed:
     image: byrnedo/alpine-curl
     command: >-
-      http://dev.greenlight.bcovrin.vonx.io/register
+      http://test.bcovrin.vonx.io/register
       -X POST
       -d '{"alias":"Faber Agent","seed":"faber_seed_000000000000000000001","role":"TRUST_ANCHOR"}'
 
   alice-register-seed:
     image: byrnedo/alpine-curl
     command: >-
-      http://dev.greenlight.bcovrin.vonx.io/register
+      http://test.bcovrin.vonx.io/register
       -X POST
       -d '{"alias":"Alice Agent","seed":"alice_seed_000000000000000000001","role":"TRUST_ANCHOR"}'
 
   acme-register-seed:
     image: byrnedo/alpine-curl
     command: >-
-      http://dev.greenlight.bcovrin.vonx.io/register
+      http://test.bcovrin.vonx.io/register
       -X POST
       -d '{"alias":"Acme Agent","seed":"acme_seed_0000000000000000000001","role":"TRUST_ANCHOR"}'
 
@@ -71,7 +71,7 @@ services:
       start
         --label "Faber Agent"
         --endpoint http://faber-aca-py:7000
-        --genesis-url http://dev.greenlight.bcovrin.vonx.io/genesis
+        --genesis-url http://test.bcovrin.vonx.io/genesis
         --webhook-url http://faber-webhook-relay:8080
         --admin 0.0.0.0 7002 
         --admin-insecure-mode 
@@ -108,7 +108,7 @@ services:
         --inbound-transport ws 0.0.0.0 8001 
         --outbound-transport http 
         --outbound-transport ws 
-        --genesis-url http://dev.greenlight.bcovrin.vonx.io/genesis
+        --genesis-url http://test.bcovrin.vonx.io/genesis
         --wallet-type indy
         --wallet-name "Alice Wallet"
         --wallet-key AliceWallet000000
@@ -138,7 +138,7 @@ services:
         --inbound-transport ws 0.0.0.0 6001 
         --outbound-transport http 
         --outbound-transport ws 
-        --genesis-url http://dev.greenlight.bcovrin.vonx.io/genesis
+        --genesis-url http://test.bcovrin.vonx.io/genesis
         --wallet-type indy
         --wallet-name "Acme Wallet"
         --wallet-key AcmeWallet0000000
